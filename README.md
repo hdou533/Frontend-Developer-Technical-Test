@@ -37,7 +37,7 @@ theme: {
 
 ### nextjs config
 
-Configure image host to get access 
+Configure image host 
 
 ```
 const nextConfig = {
