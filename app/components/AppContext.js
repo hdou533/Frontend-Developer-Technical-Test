@@ -43,8 +43,34 @@ const AppProvider = ({ children }) => {
         }
     }
 
+    const deleteFromCart = (productSize) => {
+        
+        
+        const product = cartProducts.find(item => item.size == productSize)
+        
+        const productIndex = cartProducts.findIndex(item => item.size == productSize)
+        if (product.quantity > 1) {
+            const updatedProducts = [...cartProducts]
+            const updateProduct = { ...updatedProducts[productIndex] }
+            
+            updateProduct.quantity -= 1
+            updatedProducts[productIndex] = updateProduct
+
+            setCartProducts(updatedProducts)
+            saveToLocalStorage(updatedProducts)
+        } else {
+            
+            setCartProducts(prev => {
+                const newCartProducts = prev.filter((pre, index) => index !== productIndex)
+                console.log(newCartProducts)
+                saveToLocalStorage(newCartProducts)
+                return newCartProducts
+            })
+        }
+    }
+
     return ( 
-        <CartContext.Provider value={{cartProducts, setCartProducts, addToCart}}>
+        <CartContext.Provider value={{cartProducts, setCartProducts, addToCart, deleteFromCart}}>
             {children}
         </CartContext.Provider>
      );

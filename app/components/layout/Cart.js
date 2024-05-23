@@ -10,7 +10,7 @@ const Cart = () => {
     const [toggle, setToggle] = useState(false) 
     const [cartTotal, setCartTotal] = useState(0)
 
-    const { cartProducts } = useContext(CartContext)
+    const { cartProducts, deleteFromCart } = useContext(CartContext)
     
     // update quantity
     useEffect(() => {
@@ -24,6 +24,10 @@ const Cart = () => {
 
     const handleClick = () => {
         setToggle(!toggle)
+    }
+
+    const handleDelete = (productSize) => {
+        deleteFromCart(productSize)
     }
     // cart icon color change
     const cartIconColor = toggle ? '#222222' : '#888888'
@@ -52,14 +56,14 @@ const Cart = () => {
                 <div className="absolute left-1/2 transform -translate-x-1/2 w-11/12 top-10 md:transform-none md:left-auto md:right-16 md:w-64 lg:w-80 px-4 py-6 border border-borderLight bg-white flex flex-col gap-8">
                 {cartProducts.length > 0 && (
                     cartProducts.map(product => (
-                        <div key={product.id} className="flex gap-2 items-center">
+                        <div key={product.size} className="flex gap-2 items-center">
                             <Image src={product.imageURL} alt={product.title} width={60} height={180} />
                             <div className="flex flex-col gap-3">
                                 <div className="text-sm">{product.title}</div>
                                 <div className="text-sm text-fontDark">{product.quantity } x $<span className="font-bold">{product.price.toFixed(2)}</span></div>
                                 <div className="text-sm">Size: {product.size}</div>
                             </div>
-                            
+                            <button className="self-start flex-grow font-medium" onClick={() => handleDelete(product.size)}>x</button>
                         </div>
                     ))
                     ) }
